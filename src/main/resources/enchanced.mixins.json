@@ -7,7 +7,9 @@
     "enchantment.axes.stenosis.LivingEntityMixin",
     "enchantment.chestplate.strafe.PlayerEntityMixin",
     "enchantment.leggings.slide.SlamComponentMixin",
-    "enchantment.trident.scurry.LivingEntityMixin"
+    "enchantment.trident.scurry.LivingEntityMixin",
+    "enchantment.trident.scurry.RebalanceEquipmentEventMixin",
+    "enchantment.trident.scurry.TridentItemMixin"
   ],
   "client": [
     "enchantment.spear.lunge.MinecraftClientMixin"

@@ -5,7 +5,7 @@ import moriyashiine.enchancement.common.ModConfig;
 import moriyashiine.enchancement.common.init.ModEnchantments;
 import net.collective.enchanced.common.index.ModLootConditionTypes;
 import net.collective.enchanced.common.index.ModSoundEvent;
-import net.collective.enchanced.common.index.OverruledEnchantments;
+import net.collective.enchanced.common.index.EnchancedEnchantments;
 import net.collective.enchanced.common.payload.LungeC2SPayload;
 import net.collectively.geode.Geode;
 import net.fabricmc.api.ModInitializer;
@@ -29,7 +29,7 @@ public class Enchanced implements ModInitializer {
         Enchancement.LOGGER.info("Loading Enchancement");
 
         // Init
-        OverruledEnchantments.init();
+        EnchancedEnchantments.init();
         ModSoundEvent.init();
         ModLootConditionTypes.init();
 

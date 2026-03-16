@@ -1,7 +1,7 @@
 package net.collective.enchanced.client;
 
 import net.collective.enchanced.Enchanced;
-import net.collective.enchanced.common.index.OverruledEnchantments;
+import net.collective.enchanced.common.index.EnchancedEnchantments;
 import net.collectively.geode.datagen.GeodeDataGeneration;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
@@ -33,7 +33,7 @@ public class EnchancedDataGenerator implements DataGeneratorEntrypoint {
 
         @Override
         protected void generate() {
-            addEnchantment(OverruledEnchantments.WEAVING)
+            addEnchantment(EnchancedEnchantments.WEAVING)
                     .translateDescription("UwU")
                     .autoTranslate()
                     .enchantment(ItemTags.FOOT_ARMOR_ENCHANTABLE)
@@ -41,13 +41,13 @@ public class EnchancedDataGenerator implements DataGeneratorEntrypoint {
                     .addSlot(AttributeModifierSlot.FEET)
                     .addEffect(EnchantmentEffectComponentTypes.ATTRIBUTES, new AttributeEnchantmentEffect(linkedModId("enchantment.weaving"), EntityAttributes.SNEAKING_SPEED, EnchantmentLevelBasedValue.linear(0.65F), EntityAttributeModifier.Operation.ADD_VALUE))
                     .build();
-            addEnchantment(OverruledEnchantments.STENOSIS)
+            addEnchantment(EnchancedEnchantments.STENOSIS)
                     .translateDescription("Increased damage when striking an enemy from behind.")
                     .autoTranslate()
                     .enchantment(ItemTags.AXES)
                     .primaryItems(ItemTags.AXES)
                     .build();
-            addEnchantment(OverruledEnchantments.SCURRY)
+            addEnchantment(EnchancedEnchantments.SCURRY)
                     .translateDescription("Repeated strikes increases your attack, throw and charge speed.")
                     .autoTranslate()
                     .enchantment(ItemTags.TRIDENT_ENCHANTABLE)

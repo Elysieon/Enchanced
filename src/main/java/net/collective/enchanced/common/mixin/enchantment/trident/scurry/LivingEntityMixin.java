@@ -1,7 +1,7 @@
 package net.collective.enchanced.common.mixin.enchantment.trident.scurry;
 
 import net.collective.enchanced.common.index.ModEntityComponents;
-import net.collective.enchanced.common.index.OverruledEnchantments;
+import net.collective.enchanced.common.index.EnchancedEnchantments;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -43,7 +43,7 @@ public abstract class LivingEntityMixin extends Entity {
             if (living.getEntityWorld() instanceof ServerWorld serverWorld) {
                 if (living.getAttributes().getValue(EntityAttributes.ENTITY_INTERACTION_RANGE) >= living.distanceTo(this)) {
 
-                    var hasteRegistry = serverWorld.getRegistryManager().getEntryOrThrow(OverruledEnchantments.SCURRY.registryKey());
+                    var hasteRegistry = serverWorld.getRegistryManager().getEntryOrThrow(EnchancedEnchantments.SCURRY.registryKey());
                     int level = EnchantmentHelper.getLevel(hasteRegistry, Objects.requireNonNull(living.getActiveOrMainHandStack()));
                     if (level > 0) {
                         var component = living.getComponent(ModEntityComponents.HASTE);
