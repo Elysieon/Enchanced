@@ -1,0 +1,10 @@
+{
+  "values": [
+    "enchancement:life_drain",
+    "minecraft:on_fire",
+    "minecraft:sting",
+    "minecraft:freeze",
+    "minecraft:magic"
+  ],
+  "replace": false
+}

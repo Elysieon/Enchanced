@@ -50,22 +50,31 @@ public class LungeComponent implements CommonTickingComponent {
         getComponentKey().sync(this.player);
     }
 
+    public World getWorld() {
+        return this.player.getEntityWorld();
+    }
+
     @Override
     public void tick() {
         if (this.isDashing() || this.isRecovering()) {
+            if (this.dashingTicks == -4) {
+                //TODO: Figure out how to stop using :c
+//                player.sendMessage(Text.literal("" + this.player.getEntityWorld().isClient()), false);
+//                this.player.stopUsingItem();
+            }
+
             this.dashingTicks--;
 
             if (this.isDashing()) {
-                if (!this.player.getMainHandStack().equals(this.heldStack)) {
+                if (!this.player.getActiveOrMainHandStack().equals(this.heldStack)) {
                     this.dashingTicks = 0;
                     return;
                 }
                 this.player.setVelocity(this.dashDirection.multiply(this.getDashProgress()));
 
-                // Dash Particles
             }
-            if (this.dashingTicks <= -5) this.player.stopUsingItem();
         }
+        this.sync();
     }
 
     public void activateLunge(ItemStack stack) {

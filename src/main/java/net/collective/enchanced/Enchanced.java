@@ -54,7 +54,7 @@ public class Enchanced implements ModInitializer {
                 var component = context.player().getComponent(ModEntityComponents.LUNGE);
                 component.activateLunge(context.player().getMainHandStack());
 
-                SLibUtils.playSound(context.player(), SoundEvents.ITEM_SPEAR_LUNGE_1.value(), 1F, (MathHelper.nextFloat(context.player().getRandom(), 0.98F, 1.1f)));
+                SLibUtils.playSound(context.player(), SoundEvents.ITEM_SPEAR_LUNGE_1.value(), 2F, (MathHelper.nextFloat(context.player().getRandom(), 0.89F, 1f)));
             }
         });
     }

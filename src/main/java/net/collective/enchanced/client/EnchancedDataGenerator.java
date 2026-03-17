@@ -34,7 +34,7 @@ public class EnchancedDataGenerator implements DataGeneratorEntrypoint {
         @Override
         protected void generate() {
             addEnchantment(EnchancedEnchantments.WEAVING)
-                    .translateDescription("UwU")
+                    .translateDescription("WIP")
                     .autoTranslate()
                     .enchantment(ItemTags.FOOT_ARMOR_ENCHANTABLE)
                     .primaryItems(ItemTags.FOOT_ARMOR_ENCHANTABLE)
@@ -44,14 +44,26 @@ public class EnchancedDataGenerator implements DataGeneratorEntrypoint {
             addEnchantment(EnchancedEnchantments.STENOSIS)
                     .translateDescription("Increased damage when striking an enemy from behind.")
                     .autoTranslate()
-                    .enchantment(ItemTags.AXES)
-                    .primaryItems(ItemTags.AXES)
+                    .enchantment(ItemTags.MELEE_WEAPON_ENCHANTABLE)
+                    .primaryItems(ItemTags.MELEE_WEAPON_ENCHANTABLE)
                     .build();
             addEnchantment(EnchancedEnchantments.SCURRY)
                     .translateDescription("Repeated strikes increases your attack, throw and charge speed.")
                     .autoTranslate()
                     .enchantment(ItemTags.TRIDENT_ENCHANTABLE)
                     .primaryItems(ItemTags.TRIDENT_ENCHANTABLE)
+                    .build();
+            addEnchantment(EnchancedEnchantments.OVERCLOCKED)
+                    .translateDescription("WIP")
+                    .autoTranslate()
+                    .enchantment(ItemTags.MACE_ENCHANTABLE)
+                    .primaryItems(ItemTags.MACE_ENCHANTABLE)
+                    .build();
+            addEnchantment(EnchancedEnchantments.MULTISHOT)
+                    .translateDescription("Causes three arrows to shoot instead of one.")
+                    .autoTranslate()
+                    .enchantment(ItemTags.BOW_ENCHANTABLE)
+                    .primaryItems(ItemTags.BOW_ENCHANTABLE)
                     .build();
         }
 
