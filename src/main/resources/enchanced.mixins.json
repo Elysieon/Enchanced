@@ -9,7 +9,9 @@
     "enchantment.leggings.slide.SlamComponentMixin",
     "enchantment.trident.scurry.LivingEntityMixin",
     "enchantment.trident.scurry.RebalanceEquipmentEventMixin",
-    "enchantment.trident.scurry.TridentItemMixin"
+    "enchantment.trident.scurry.TridentItemMixin",
+    "rebalanced.mace.ItemStackMixin",
+    "rebalanced.mace.MaceItemMixin"
   ],
   "client": [
     "enchantment.spear.lunge.MinecraftClientMixin"

@@ -8,12 +8,15 @@ import moriyashiine.enchancement.common.util.enchantment.MaceEffect;
 import moriyashiine.strawberrylib.api.module.SLibUtils;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
 import net.collective.enchanced.common.index.ModEntityComponents;
+import net.collectively.geode.math.math;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Items;
 import net.minecraft.item.TridentItem;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -37,10 +40,16 @@ public class RebalanceEquipmentEventMixin {
             int level = EnchantmentHelper.getLevel(enchantmentReference, Objects.requireNonNull(player.getActiveOrMainHandStack()));
             if (level > 0) {
                 var component = player.getComponent(ModEntityComponents.HASTE);
-                if (player.getItemUseTime() == EnchancementUtil.getTridentChargeTime() - component.getHasteMultiplier() * 2 && isValid(player)) {
+                var scurryChargeTime = math.round(EnchancementUtil.getTridentChargeTime() - component.getTridentChargeUp() + 10);
+                if (scurryChargeTime < 0) scurryChargeTime = 0;
+
+                player.sendMessage(Text.literal("🏹 Charge Time: " + scurryChargeTime).formatted(Formatting.YELLOW), false);
+                // TODO: Remove Debugging code, AFTER you've added a way to tell a different way.
+
+                if (player.getItemUseTime() == scurryChargeTime && isValid(player)) {
                     SLibUtils.playSound(entity, ModSoundEvents.ENTITY_GENERIC_PING);
-                    ci.cancel();
                 }
+                ci.cancel();
             }
         }
     }

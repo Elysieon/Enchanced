@@ -28,7 +28,8 @@
   ],
   "custom": {
     "cardinal-components": [
-      "enchanced:haste"
+      "enchanced:haste",
+      "enchanced:groundlayedcooldown"
     ]
   },
   "accessWidener": "enchanced.accesswidener",

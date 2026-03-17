@@ -1,9 +1,11 @@
 package net.collective.enchanced.common.cca;
 
 import com.google.common.collect.ImmutableMultimap;
+import moriyashiine.enchancement.common.util.EnchancementUtil;
 import net.collective.enchanced.Enchanced;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
+import net.collectively.geode.math.math;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -59,10 +61,13 @@ public class HasteComponent extends SyncedLivingEntityComponent {
         return this.hasteMultiplier;
     }
 
+    public int getTridentChargeUp() {
+        return math.round((this.hasteMultiplier * 10));
+    }
 
     @Override
     public void tick() {
-        if (hasteTime > 0) {
+        if (hasteTime > 0 && !this.livingEntity().isUsingItem()) {
             var hasteRegistry = this.world().getRegistryManager().getEntryOrThrow(EnchancedEnchantments.SCURRY.registryKey());
             int level = EnchantmentHelper.getLevel(hasteRegistry, Objects.requireNonNull(this.livingEntity().getActiveOrMainHandStack()));
             if (level == 0) {

@@ -3,6 +3,7 @@ package net.collective.enchanced;
 import moriyashiine.enchancement.common.Enchancement;
 import moriyashiine.enchancement.common.ModConfig;
 import moriyashiine.enchancement.common.init.ModEnchantments;
+import moriyashiine.strawberrylib.api.module.SLibUtils;
 import net.collective.enchanced.common.index.ModLootConditionTypes;
 import net.collective.enchanced.common.index.ModSoundEvent;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
@@ -13,8 +14,12 @@ import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 
 public class Enchanced implements ModInitializer {
     public static final String MOD_ID = "enchanced";
@@ -36,6 +41,8 @@ public class Enchanced implements ModInitializer {
         // Remove Enchantments!
         if (!ModConfig.disallowedEnchantments.contains(Enchantments.FIRE_ASPECT.getValue().toString())) ModConfig.disallowedEnchantments.add(Enchantments.FIRE_ASPECT.getValue().toString());
         if (!ModConfig.disallowedEnchantments.contains(ModEnchantments.STICKY.getValue().toString())) ModConfig.disallowedEnchantments.add(ModEnchantments.STICKY.getValue().toString());
+        if (!ModConfig.disallowedEnchantments.contains(ModEnchantments.METEOR.getValue().toString())) ModConfig.disallowedEnchantments.add(ModEnchantments.METEOR.getValue().toString());
+        if (!ModConfig.disallowedEnchantments.contains(ModEnchantments.DELAY.getValue().toString())) ModConfig.disallowedEnchantments.add(ModEnchantments.DELAY.getValue().toString());
 
         // Register Packet Stuff
         PayloadTypeRegistry.playC2S().register(LungeC2SPayload.ID, LungeC2SPayload.CODEC);
@@ -44,6 +51,8 @@ public class Enchanced implements ModInitializer {
             context.player().sendMessage(Text.literal("Lunged UwU"), false);
             var item = context.player().getActiveOrMainHandStack();
             if (item.isIn(ItemTags.SPEARS)) {
+                // Lunge Code Stuff
+                SLibUtils.playSound(context.player(), SoundEvents.ITEM_SPEAR_LUNGE_1.value(), 1F, (MathHelper.nextFloat(context.player().getRandom(), 0.98F, 1.1f)));
             }
         });
     }
