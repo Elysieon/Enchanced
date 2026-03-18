@@ -1,26 +1,39 @@
 package net.collective.enchanced.common.cca.entity;
 
-import net.collective.enchanced.common.cca.SyncedLivingEntityComponent;
+import com.mojang.datafixers.util.Either;
 import net.collective.enchanced.common.index.ModEntityComponents;
+import net.collectively.geode.math.math;
+import net.minecraft.advancement.criterion.Criteria;
+import net.minecraft.client.render.DrawStyle;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.AttackRangeComponent;
+import net.minecraft.component.type.KineticWeaponComponent;
+import net.minecraft.component.type.PiercingWeaponComponent;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityStatuses;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.boss.dragon.EnderDragonPart;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.registry.tag.ItemTags;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import net.minecraft.world.debug.gizmo.GizmoDrawing;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;
+
+import java.util.Collection;
 
 /*
 This is heavily inspired by Powercyphe's code!
@@ -55,6 +68,80 @@ public class LungeComponent implements CommonTickingComponent {
         return this.player.getEntityWorld();
     }
 
+    private void attack() {
+        ItemStack activeStack = player.getActiveOrMainHandStack();
+
+        if (activeStack.isEmpty() || !activeStack.isIn(ItemTags.SPEARS)) {
+            return;
+        }
+
+        KineticWeaponComponent kineticWeaponComponent = activeStack.get(DataComponentTypes.KINETIC_WEAPON);
+        if (kineticWeaponComponent == null) {
+            return;
+        }
+
+        Box boundingBox = player.getBoundingBox();
+        Vec3d eyePos = player.getEyePos();
+        Vec3d headRotation = player.getHeadRotationVector();
+        Vec3d movement = player.getMovement();
+        Vec3d maxReach = eyePos.add(headRotation.multiply(4.5f + math.max(0, movement.dotProduct(headRotation))));
+        Vec3d minReach = eyePos.add(headRotation.multiply(2));
+        boundingBox = boundingBox.stretch(maxReach.subtract(minReach));
+        GizmoDrawing.box(boundingBox, DrawStyle.stroked(0xffff55ff));
+
+        Either<BlockHitResult, Collection<EntityHitResult>> collisionResult = ProjectileUtil.collectPiercingCollisions(
+                player,
+                new AttackRangeComponent(
+                        0,
+                        4.5f,
+                        0,
+                        4.5f,
+                        0.5f,
+                        1f
+                ),
+                target -> PiercingWeaponComponent.canHit(player, target),
+                RaycastContext.ShapeType.COLLIDER
+        );
+
+        Vec3d rotation = player.getRotationVector();
+        double playerSpeedRelation = rotation.dotProduct(KineticWeaponComponent.getAmplifiedMovement(player));
+        double attackDamage = player.getAttributeBaseValue(EntityAttributes.ATTACK_DAMAGE);
+        boolean hasPierced = false;
+
+        if (collisionResult.right().isPresent()) {
+            Collection<EntityHitResult> collisions = collisionResult.right().get();
+
+            for (EntityHitResult collision : collisions) {
+                Entity entity = collision.getEntity();
+                if (entity != null) {
+                    if (entity instanceof EnderDragonPart enderDragonPart) {
+                        entity = enderDragonPart.owner;
+                    }
+
+                    boolean isInCooldown = player.isInPiercingCooldown(entity, 10);
+                    GizmoDrawing.box(collision.getEntity().getBoundingBox(), DrawStyle.stroked(isInCooldown ? 0xffff5555 : 0xff55ff55));
+
+                    if (!isInCooldown) {
+                        player.startPiercingCooldown(entity);
+                        double piercedSpeedRelation = rotation.dotProduct(KineticWeaponComponent.getAmplifiedMovement(entity));
+                        double relativeSpeed = Math.max(0.0, playerSpeedRelation - piercedSpeedRelation);
+                        float effectiveDamage = (float) attackDamage + MathHelper.floor(relativeSpeed * kineticWeaponComponent.damageMultiplier());
+                        effectiveDamage *= 0.41f;
+
+                        hasPierced |= player.pierce(player.getActiveHand().getEquipmentSlot(), entity, effectiveDamage, true, true, true);
+                    }
+                }
+            }
+        }
+
+        if (hasPierced) {
+            player.getEntityWorld().sendEntityStatus(player, EntityStatuses.KINETIC_ATTACK);
+            if (player instanceof ServerPlayerEntity serverPlayerEntity) {
+                Criteria.SPEAR_MOBS.trigger(serverPlayerEntity, player.getPiercedEntityCount(pierced -> pierced instanceof LivingEntity));
+            }
+        }
+    }
+
     @Override
     public void tick() {
         if (this.isDashing() || this.isRecovering()) {
@@ -72,8 +159,9 @@ public class LungeComponent implements CommonTickingComponent {
                     this.dashingTicks = 0;
                     return;
                 }
-                this.player.setVelocity(this.dashDirection.multiply(this.getDashProgress()));
 
+                this.player.setVelocity(this.dashDirection.multiply(this.getDashProgress()));
+                attack();
             }
         }
         this.sync();
