@@ -178,7 +178,7 @@ public class LungeComponent implements CommonTickingComponent {
     }
 
     public void activateLunge(ItemStack stack) {
-//        this.player.getItemCooldownManager().set(stack, 285);
+        this.player.getItemCooldownManager().set(stack, 285);
         if (!this.player.hasVehicle()) {
 
             this.dashingTicks = DASHING_TICKS_MAX;
