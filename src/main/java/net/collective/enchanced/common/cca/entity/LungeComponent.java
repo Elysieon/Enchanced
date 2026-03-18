@@ -178,15 +178,23 @@ public class LungeComponent implements CommonTickingComponent {
     }
 
     public void activateLunge(ItemStack stack) {
-        this.player.getItemCooldownManager().set(stack, 285);
+//        this.player.getItemCooldownManager().set(stack, 285);
+        if (!this.player.hasVehicle()) {
 
-        this.dashingTicks = DASHING_TICKS_MAX;
+            this.dashingTicks = DASHING_TICKS_MAX;
 
-        Vec3d dir = this.player.getRotationVector(Math.clamp(this.player.getPitch(), -9F, 9F), this.player.getYaw());
-        this.dashDirection = dir.normalize().multiply(2);
-        this.player.setVelocity(this.dashDirection);
+            Vec3d dir = this.player.getRotationVector(Math.clamp(this.player.getPitch(), -9F, 9F), this.player.getYaw());
+            this.dashDirection = dir.normalize().multiply(2);
+            this.player.setVelocity(this.dashDirection);
 
-        this.heldStack = stack;
+            this.heldStack = stack;
+        }
+        else {
+            var vehicle = this.player.getVehicle();
+            if (vehicle != null) {
+                vehicle.setVelocity(vehicle.getRotationVector().multiply(1.25));
+            }
+        }
         this.sync();
     }
 
