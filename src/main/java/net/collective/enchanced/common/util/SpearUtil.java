@@ -25,7 +25,7 @@ import net.minecraft.world.RaycastContext;
 import java.util.Collection;
 
 public interface SpearUtil {
-    static void attack(PlayerEntity player, Runnable sync) {
+    static void attack(PlayerEntity player, float damageMultiplier, Runnable sync) {
         ItemStack activeStack = player.getActiveOrMainHandStack();
 
         if (activeStack.isEmpty() || !activeStack.isIn(ItemTags.SPEARS)) {
@@ -85,6 +85,7 @@ public interface SpearUtil {
                         double relativeSpeed = Math.max(0.0, playerSpeedRelation - piercedSpeedRelation);
                         float effectiveDamage = (float) attackDamage + MathHelper.floor(relativeSpeed * kineticWeaponComponent.damageMultiplier());
                         effectiveDamage *= 0.41f;
+                        effectiveDamage *= damageMultiplier;
 
                         boolean hasPiercedThisEntity = player.pierce(player.getActiveHand().getEquipmentSlot(), entity, effectiveDamage, true, true, true);
 

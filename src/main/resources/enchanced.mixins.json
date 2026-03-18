@@ -7,6 +7,9 @@
     "enchantment.axes.stenosis.LivingEntityMixin",
     "enchantment.chestplate.strafe.PlayerEntityMixin",
     "enchantment.leggings.slide.SlamComponentMixin",
+    "enchantment.spear.joust.ItemMixin",
+    "enchantment.spear.joust.KineticWeaponComponentMixin",
+    "enchantment.spear.joust.MultiplyMovementSpeedEventMixin",
     "enchantment.trident.scurry.LivingEntityMixin",
     "enchantment.trident.scurry.RebalanceEquipmentEventMixin",
     "enchantment.trident.scurry.TridentItemMixin",
@@ -15,6 +18,7 @@
     "rebalanced.mace.MaceItemMixin"
   ],
   "client": [
+    "enchantment.spear.joust.HeldItemRendererMixin",
     "enchantment.spear.lunge.MinecraftClientMixin",
     "rebalanced.mace.client.MinecraftClientMixin"
   ],

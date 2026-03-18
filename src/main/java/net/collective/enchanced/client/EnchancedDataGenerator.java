@@ -65,6 +65,12 @@ public class EnchancedDataGenerator implements DataGeneratorEntrypoint {
                     .enchantment(ItemTags.BOW_ENCHANTABLE)
                     .primaryItems(ItemTags.BOW_ENCHANTABLE)
                     .build();
+            addEnchantment(EnchancedEnchantments.JOUST)
+                    .translateDescription("WIP :3")
+                    .autoTranslate()
+                    .enchantment(ItemTags.SPEARS)
+                    .primaryItems(ItemTags.SPEARS)
+                    .build();
         }
 
         @Override
