@@ -78,7 +78,7 @@ public class JoustComponent extends SynedPlayerEntityComponent {
     public void writeData(WriteView writeView) {
         writeView.putInt(SPEAR_TICKS_KEY, spearTicks);
         writeView.putString(SPEAR_HAND_KEY, spearHand.name());
-        if (spearStack != null) writeView.put(SPEAR_STACK_KEY, ItemStack.CODEC, spearStack);
+        if (spearStack != null && !spearStack.isEmpty()) writeView.put(SPEAR_STACK_KEY, ItemStack.CODEC, spearStack);
     }
 
     public void onStopUsing(ItemStack itemStack, int remainingUseTicks) {
