@@ -1,8 +1,10 @@
 package net.collective.enchanced.common.mixin.enchantment.trident.scurry;
 
+import net.collective.enchanced.common.cca.entity.ScurryComponent;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.collective.enchanced.common.util.ItemStackUtil;
+
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -10,16 +12,15 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.World;
+
 import org.jspecify.annotations.Nullable;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.Objects;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -36,24 +37,29 @@ public abstract class LivingEntityMixin extends Entity {
         super(type, world);
     }
 
-    @Inject(method = "modifyAppliedDamage", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "modifyAppliedDamage", at = @At("HEAD"))
     public void haste$modifyAppliedDamage(DamageSource source, float amount, CallbackInfoReturnable<Float> cir) {
-        var damage = amount;
-        if (source.getAttacker() instanceof PlayerEntity living) {
-            if (living.getEntityWorld() instanceof ServerWorld serverWorld) {
-                if (living.getAttributes().getValue(EntityAttributes.ENTITY_INTERACTION_RANGE) >= living.distanceTo(this)) {
+        if (amount < 2.2) {
+            return;
+        }
 
-                    var hasteRegistry = serverWorld.getRegistryManager().getEntryOrThrow(EnchancedEnchantments.SCURRY.registryKey());
-                    int level = EnchantmentHelper.getLevel(hasteRegistry, Objects.requireNonNull(living.getActiveOrMainHandStack()));
-                    if (level > 0) {
-                        var component = living.getComponent(ModEntityComponents.HASTE);
-                        component.addHaste();
-                        cir.setReturnValue(damage);
+        if (source.getAttacker() instanceof PlayerEntity attacker) {
+            ItemStack weaponStack = source.getWeaponStack();
 
-                    }
+            if (ItemStackUtil.isNullOrEmpty(weaponStack)) weaponStack = attacker.getMainHandStack();
+            if (ItemStackUtil.isNullOrEmpty(weaponStack)) weaponStack = attacker.getOffHandStack();
+
+            if (ItemStackUtil.isNullOrEmpty(weaponStack)) {
+                return;
+            }
+
+            double interactionRange = attacker.getAttributes().getValue(EntityAttributes.ENTITY_INTERACTION_RANGE);
+            if (interactionRange >= attacker.distanceTo(this)) {
+                if (EnchancedEnchantments.hasEnchantment(attacker.getRegistryManager(), weaponStack, EnchancedEnchantments.SCURRY)) {
+                    ScurryComponent component = attacker.getComponent(ModEntityComponents.SCURRY);
+                    component.increaseScurry();
                 }
             }
         }
     }
-
 }
