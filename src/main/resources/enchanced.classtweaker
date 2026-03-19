@@ -1,0 +1,3 @@
+classTweaker v1 named
+
+accessible field moriyashiine/enchancement/common/screenhandler/EnchantingTableScreenHandler enchantingStack Lnet/minecraft/item/ItemStack;

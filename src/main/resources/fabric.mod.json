@@ -34,7 +34,7 @@
       "enchanced:joust"
     ]
   },
-  "accessWidener": "enchanced.accesswidener",
+  "accessWidener": "enchanced.classtweaker",
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",

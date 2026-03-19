@@ -15,6 +15,7 @@
     "enchantment.trident.scurry.LivingEntityMixin",
     "enchantment.trident.scurry.RebalanceEquipmentEventMixin",
     "enchantment.trident.scurry.TridentItemMixin",
+    "enchantment_table.EnchantingTableScreenHandlerMixin",
     "rebalanced.mace.ItemStackMixin",
     "rebalanced.mace.LightningDashComponentMixin",
     "rebalanced.mace.MaceItemMixin"
@@ -22,6 +23,7 @@
   "client": [
     "enchantment.spear.joust.HeldItemRendererMixin",
     "enchantment.spear.lunge.MinecraftClientMixin",
+    "enchantment_table.EnchantingTableScreenMixin",
     "rebalanced.mace.client.MinecraftClientMixin"
   ],
   "injectors": {
