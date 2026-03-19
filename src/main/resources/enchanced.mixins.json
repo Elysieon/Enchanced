@@ -20,7 +20,7 @@
     "rebalanced.disallowed_enchantments.EnchantmentUtilMixin",
     "rebalanced.mace.ItemStackMixin",
     "rebalanced.mace.LightningDashComponentMixin",
-    "rebalanced.mace.MaceItemMixin"
+    "rebalanced.mace.MaceItemMixin",
   ],
   "client": [
     "enchantment.spear.joust.HeldItemRendererMixin",

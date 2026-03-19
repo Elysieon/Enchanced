@@ -2,6 +2,7 @@ package net.collective.enchanced;
 
 import moriyashiine.enchancement.common.Enchancement;
 import moriyashiine.enchancement.common.ModConfig;
+import moriyashiine.enchancement.common.component.entity.SlamComponent;
 import moriyashiine.enchancement.common.init.ModEnchantments;
 import moriyashiine.strawberrylib.api.module.SLibUtils;
 import net.collective.enchanced.common.index.ModEntityComponents;
@@ -11,14 +12,17 @@ import net.collective.enchanced.common.index.EnchancedEnchantments;
 import net.collective.enchanced.common.payload.LungeC2SPayload;
 import net.collectively.geode.Geode;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -59,6 +63,15 @@ public class Enchanced implements ModInitializer {
 
                 SLibUtils.playSound(player, SoundEvents.ITEM_SPEAR_LUNGE_1.value(), 2F, MathHelper.nextFloat(player.getRandom(), 0.89F, 1f));
             }
+        });
+
+        ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) -> {
+            if (source.isOf(DamageTypes.SPEAR) && source.getAttacker() instanceof PlayerEntity player) {
+                SlamComponent component = player.getComponent(moriyashiine.enchancement.common.init.ModEntityComponents.SLAM);
+                return !component.isSlamming();
+            }
+
+            return true;
         });
     }
 }
