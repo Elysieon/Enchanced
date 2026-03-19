@@ -66,7 +66,7 @@ public class EnchancedDataGenerator implements DataGeneratorEntrypoint {
                     .primaryItems(ItemTags.BOW_ENCHANTABLE)
                     .build();
             addEnchantment(EnchancedEnchantments.JOUST)
-                    .translateDescription("WIP :3")
+                    .translateDescription("Spearing is replaced with a chargeable jab.")
                     .autoTranslate()
                     .enchantment(ItemTags.SPEARS)
                     .primaryItems(ItemTags.SPEARS)

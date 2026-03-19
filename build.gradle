@@ -46,6 +46,7 @@ dependencies {
 
     modImplementation "maven.modrinth:strawberrylib:${strawberrylib_version}"
     modImplementation "maven.modrinth:enchancement:${project.enchancement_version}"
+    modImplementation "maven.modrinth:mononym:${project.mononym_version}"
     modImplementation "maven.modrinth:geode:${project.geode_version}"
 }
 

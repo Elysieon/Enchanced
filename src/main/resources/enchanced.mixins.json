@@ -4,6 +4,8 @@
   "package": "net.collective.enchanced.common.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "anvil.AnvilBlockMixin",
+    "anvil.ItemMixin",
     "enchantment.axes.stenosis.LivingEntityMixin",
     "enchantment.chestplate.strafe.PlayerEntityMixin",
     "enchantment.leggings.slide.SlamComponentMixin",
