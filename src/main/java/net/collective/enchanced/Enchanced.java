@@ -74,4 +74,8 @@ public class Enchanced implements ModInitializer {
             return true;
         });
     }
+
+    public static float getScatterDivergence() {
+        return 1.4f;
+    }
 }
