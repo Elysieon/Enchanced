@@ -200,10 +200,15 @@ public abstract class EnchantingTableScreenMixin {
             if (this.infoTexts == null) {
                 MutableText xpCost = Text.translatable("tooltip.enchancement.experience_level_cost", handler.getCost()).formatted(Formatting.GREEN);
                 MutableText lapisCost = Text.translatable("tooltip.enchancement.material_cost", handler.getCost(), Text.translatable(Items.LAPIS_LAZULI.getTranslationKey())).formatted(Formatting.GREEN);
-                MutableText repairCost = null;
+                MutableText materialCost = null;
                 if (!handler.getEnchantingMaterial().isEmpty()) {
                     MutableText itemName = Text.translatable(handler.getEnchantingMaterial().get(this.materialIndex).value().getTranslationKey());
-                    repairCost = Text.translatable("tooltip.enchancement.material_cost", handler.getCost(), itemName).formatted(Formatting.GREEN);
+
+                    if (handler.slots.get(2).getStack().isOf(Items.ENCHANTED_BOOK)) {
+                        itemName = Text.translatable(handler.slots.get(2).getStack().getItem().getTranslationKey());
+                    }
+
+                    materialCost = Text.translatable("tooltip.enchancement.material_cost", handler.getCost(), itemName).formatted(Formatting.GREEN);
                 }
 
                 if (!clientPlayer.isCreative()) {
@@ -215,15 +220,15 @@ public abstract class EnchantingTableScreenMixin {
                         lapisCost.formatted(Formatting.RED);
                     }
 
-                    if (repairCost != null && handler.getSlot(2).getStack().getCount() < handler.getCost()) {
-                        repairCost.formatted(Formatting.RED);
+                    if (materialCost != null && handler.getSlot(2).getStack().getCount() < handler.getCost()) {
+                        materialCost.formatted(Formatting.RED);
                     }
                 }
 
-                if (repairCost == null) {
+                if (materialCost == null) {
                     this.infoTexts = List.of(xpCost, lapisCost);
                 } else {
-                    this.infoTexts = List.of(xpCost, lapisCost, repairCost);
+                    this.infoTexts = List.of(xpCost, lapisCost, materialCost);
                 }
             }
 
