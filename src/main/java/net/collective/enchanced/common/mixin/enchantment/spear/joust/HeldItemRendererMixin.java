@@ -2,6 +2,7 @@ package net.collective.enchanced.common.mixin.enchantment.spear.joust;
 
 import net.collective.enchanced.client.render.enchantments.pose.joust.Jousting;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
 import net.minecraft.client.render.command.OrderedRenderCommandQueue;
 import net.minecraft.client.render.item.HeldItemRenderer;
@@ -23,7 +24,7 @@ public class HeldItemRendererMixin {
             )
     )
     private void joust$renderFirstPersonItem$before(AbstractClientPlayerEntity player, float tickProgress, float pitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress, MatrixStack matrices, OrderedRenderCommandQueue orderedRenderCommandQueue, int light, CallbackInfo ci) {
-        if (EnchancedEnchantments.hasEnchantment(player.getRegistryManager(), itemStack, EnchancedEnchantments.JOUST)) {
+        if (EnchantUtils.hasEnchantment(player, itemStack, EnchancedEnchantments.JOUST)) {
             matrices.push();
             Jousting.renderFirstPerson(player, tickProgress, pitch, hand, swingProgress, itemStack, equipProgress, matrices, orderedRenderCommandQueue, light);
         }
@@ -38,7 +39,7 @@ public class HeldItemRendererMixin {
             )
     )
     private void joust$renderFirstPersonItem$after(AbstractClientPlayerEntity player, float tickProgress, float pitch, Hand hand, float swingProgress, ItemStack itemStack, float equipProgress, MatrixStack matrices, OrderedRenderCommandQueue orderedRenderCommandQueue, int light, CallbackInfo ci) {
-        if (EnchancedEnchantments.hasEnchantment(player.getRegistryManager(), itemStack, EnchancedEnchantments.JOUST)) {
+        if (EnchantUtils.hasEnchantment(player, itemStack, EnchancedEnchantments.JOUST)) {
             matrices.pop();
         }
     }

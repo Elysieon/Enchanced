@@ -3,6 +3,7 @@ package net.collective.enchanced.common.mixin.enchantment.trident.scurry;
 import net.collective.enchanced.common.cca.entity.ScurryComponent;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.collective.enchanced.common.util.ItemStackUtil;
 
 import net.minecraft.entity.Entity;
@@ -55,7 +56,7 @@ public abstract class LivingEntityMixin extends Entity {
 
             double interactionRange = attacker.getAttributes().getValue(EntityAttributes.ENTITY_INTERACTION_RANGE);
             if (interactionRange >= attacker.distanceTo(this)) {
-                if (EnchancedEnchantments.hasEnchantment(attacker.getRegistryManager(), weaponStack, EnchancedEnchantments.SCURRY)) {
+                if (EnchantUtils.hasEnchantment(attacker, weaponStack, EnchancedEnchantments.SCURRY)) {
                     ScurryComponent component = attacker.getComponent(ModEntityComponents.SCURRY);
                     component.increaseScurry();
                 }

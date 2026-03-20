@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.collective.enchanced.common.cca.entity.ScurryComponent;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,7 +24,7 @@ public class TridentItemMixin {
             argsOnly = true
     )
     private int scurry$onStoppedUsing(int original, ItemStack itemStack, World world, LivingEntity user) {
-        if (user instanceof PlayerEntity player && EnchancedEnchantments.hasEnchantment(world.getRegistryManager(), itemStack, EnchancedEnchantments.SCURRY)) {
+        if (user instanceof PlayerEntity player && EnchantUtils.hasEnchantment(world, itemStack, EnchancedEnchantments.SCURRY)) {
             ScurryComponent component = player.getComponent(ModEntityComponents.SCURRY);
             original -= component.tridentChargeUp() + 10;
             component.clearScurry();

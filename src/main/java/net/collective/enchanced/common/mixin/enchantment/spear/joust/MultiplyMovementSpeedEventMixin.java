@@ -4,6 +4,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import moriyashiine.enchancement.api.event.MultiplyMovementSpeedEvent;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.minecraft.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,7 +19,7 @@ public interface MultiplyMovementSpeedEventMixin {
             )
     )
     private static boolean joust$getMovementMultiplier(LivingEntity instance, Operation<Boolean> original) {
-        if (instance.isUsingItem() && EnchancedEnchantments.hasEnchantment(instance.getRegistryManager(), instance.getActiveItem(), EnchancedEnchantments.JOUST)) {
+        if (instance.isUsingItem() && EnchantUtils.hasEnchantment(instance, instance.getActiveItem(), EnchancedEnchantments.JOUST)) {
             return false;
         }
 

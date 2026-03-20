@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.collective.enchanced.common.cca.entity.JoustComponent;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
 import net.collective.enchanced.common.index.ModEntityComponents;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
@@ -27,7 +28,7 @@ public class ItemMixin {
             return original.call(stack);
         }
 
-        if (EnchancedEnchantments.hasEnchantment(clientWorld.getRegistryManager(), stack, EnchancedEnchantments.JOUST)) {
+        if (EnchantUtils.hasEnchantment(clientWorld, stack, EnchancedEnchantments.JOUST)) {
             ClientPlayerEntity player = client.player;
 
             if (player != null) {
@@ -46,7 +47,7 @@ public class ItemMixin {
     @WrapMethod(method = "onStoppedUsing")
     private boolean joust$onStopUsing(ItemStack itemStack, World world, LivingEntity user, int remainingUseTicks, Operation<Boolean> original) {
         if (user instanceof PlayerEntity player) {
-            if (EnchancedEnchantments.hasEnchantment(player.getRegistryManager(), itemStack, EnchancedEnchantments.JOUST)) {
+            if (EnchantUtils.hasEnchantment(player, itemStack, EnchancedEnchantments.JOUST)) {
                 JoustComponent component = ModEntityComponents.JOUST.get(player);
                 component.onStopUsing(itemStack, remainingUseTicks);
                 return true;

@@ -4,6 +4,7 @@ import net.collective.enchanced.common.cca.entity.LungeComponent;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.collective.enchanced.common.payload.LungeC2SPayload;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -37,7 +38,7 @@ public class MinecraftClientMixin {
         // The player has to be using the item and the item has to not be on cooldown.
         if (!player.isUsingItem() || player.getItemCooldownManager().isCoolingDown(activeStack)) return;
         // The stack has to be enchanted with lunge.
-        if (!EnchancedEnchantments.hasEnchantment(player.getRegistryManager(), activeStack, Enchantments.LUNGE)) return;
+        if (!EnchantUtils.hasEnchantment(player, activeStack, Enchantments.LUNGE)) return;
 
         while (this.options.attackKey.wasPressed()) {
             LungeComponent component = player.getComponent(ModEntityComponents.LUNGE);

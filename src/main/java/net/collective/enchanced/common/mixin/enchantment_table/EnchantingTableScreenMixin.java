@@ -8,10 +8,9 @@ import moriyashiine.enchancement.common.screenhandler.EnchantingTableScreenHandl
 import moriyashiine.enchancement.common.util.EnchancementUtil;
 import moriyashiine.strawberrylib.api.module.SLibClientUtils;
 import net.collective.enchanced.Enchanced;
-import net.collective.enchanced.common.util.EnchantingHelper;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.collectively.geode.math.math;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.FontStorage;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.Click;
@@ -98,7 +97,7 @@ public abstract class EnchantingTableScreenMixin {
         }
 
         ItemStack enchantingStack = handler.getSlot(0).getStack();
-        List<RegistryEntry.Reference<Enchantment>> allEnchantments = EnchantingHelper.getAllEnchantmentsForStack(clientWorld.getRegistryManager(), handler.validEnchantments::contains, enchantingStack);
+        List<RegistryEntry.Reference<Enchantment>> allEnchantments = EnchantUtils.getAllEnchantmentsForStack(clientWorld.getRegistryManager(), handler.validEnchantments::contains, enchantingStack);
 
         if (allEnchantments.size() > 4) {
             int delta = verticalAmount > (double)0.0F ? -1 : 1;
@@ -137,7 +136,7 @@ public abstract class EnchantingTableScreenMixin {
         }
 
         ItemStack enchantingStack = handler.getSlot(0).getStack();
-        List<RegistryEntry.Reference<Enchantment>> allEnchantments = EnchantingHelper.getAllEnchantmentsForStack(clientWorld.getRegistryManager(), handler.validEnchantments::contains, enchantingStack);
+        List<RegistryEntry.Reference<Enchantment>> allEnchantments = EnchantUtils.getAllEnchantmentsForStack(clientWorld.getRegistryManager(), handler.validEnchantments::contains, enchantingStack);
 
         if (allEnchantments.size() > 4) {
             if (isInUpButtonBounds(posX, posY, (int)click.x(), (int)click.y()) && handler.onButtonClick(clientPlayer, 1)) {
@@ -180,7 +179,7 @@ public abstract class EnchantingTableScreenMixin {
         TextRenderer textRenderer = screen.getTextRenderer();
 
         ItemStack enchantingStack = handler.getSlot(0).getStack();
-        List<RegistryEntry.Reference<Enchantment>> allEnchantments = EnchantingHelper.getAllEnchantmentsForStack(world.getRegistryManager(), handler.validEnchantments::contains, enchantingStack);
+        List<RegistryEntry.Reference<Enchantment>> allEnchantments = EnchantUtils.getAllEnchantmentsForStack(world.getRegistryManager(), handler.validEnchantments::contains, enchantingStack);
 
         if (allEnchantments.size() > 4) {
             if (isInUpButtonBounds(posX, posY, mouseX, mouseY)) {

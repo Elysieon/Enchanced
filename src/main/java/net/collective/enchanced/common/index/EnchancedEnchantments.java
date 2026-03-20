@@ -21,13 +21,4 @@ public interface EnchancedEnchantments {
 
     static void init() {
     }
-
-    static boolean hasEnchantment(RegistryEntryLookup.RegistryLookup registryLookup, ItemStack itemStack, RegistryKey<Enchantment> enchantment) {
-        var enchantmentRegistry = registryLookup.getEntryOrThrow(enchantment);
-        return EnchantmentHelper.getLevel(enchantmentRegistry, itemStack) > 0;
-    }
-
-    static boolean hasEnchantment(RegistryEntryLookup.RegistryLookup registryLookup, ItemStack itemStack, GeodeEnchantment enchantment) {
-        return hasEnchantment(registryLookup, itemStack, enchantment.registryKey());
-    }
 }

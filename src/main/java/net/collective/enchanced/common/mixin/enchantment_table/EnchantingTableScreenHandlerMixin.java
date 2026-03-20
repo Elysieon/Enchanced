@@ -3,9 +3,7 @@ package net.collective.enchanced.common.mixin.enchantment_table;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import moriyashiine.enchancement.common.screenhandler.EnchantingTableScreenHandler;
-import net.collective.enchanced.common.util.EnchantingHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.world.ClientWorld;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -41,7 +39,7 @@ public abstract class EnchantingTableScreenHandlerMixin {
             return original.call(index);
         }
 
-        List<RegistryEntry.Reference<Enchantment>> allEnchantments = EnchantingHelper.getAllEnchantmentsForStack(world.getRegistryManager(), validEnchantments::contains, enchantingStack);
+        List<RegistryEntry.Reference<Enchantment>> allEnchantments = EnchantUtils.getAllEnchantmentsForStack(world.getRegistryManager(), validEnchantments::contains, enchantingStack);
         return allEnchantments.size() <= 4 ? allEnchantments.get(index) : allEnchantments.get((index + this.viewIndex) % allEnchantments.size());
     }
 
@@ -52,7 +50,7 @@ public abstract class EnchantingTableScreenHandlerMixin {
             return;
         }
 
-        List<RegistryEntry.Reference<Enchantment>> allEnchantments = EnchantingHelper.getAllEnchantmentsForStack(world.getRegistryManager(), validEnchantments::contains, enchantingStack);
+        List<RegistryEntry.Reference<Enchantment>> allEnchantments = EnchantUtils.getAllEnchantmentsForStack(world.getRegistryManager(), validEnchantments::contains, enchantingStack);
 
         this.viewIndex = (this.viewIndex + (up ? -1 : 1)) % allEnchantments.size();
         if (this.viewIndex < 0) {

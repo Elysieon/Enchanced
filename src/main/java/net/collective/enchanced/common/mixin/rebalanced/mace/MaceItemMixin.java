@@ -3,6 +3,7 @@ package net.collective.enchanced.common.mixin.rebalanced.mace;
 import moriyashiine.enchancement.common.component.entity.GroundedCooldownComponent;
 import moriyashiine.enchancement.common.init.ModEntityComponents;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
@@ -20,21 +21,19 @@ import java.util.Objects;
 
 @Mixin(MaceItem.class)
 public class MaceItemMixin {
-    @Unique @Final private static final int MACE_COOLDOWN = 440;
+    @Unique
+    @Final
+    private static final int MACE_COOLDOWN = 440;
 
     @Inject(method = "postDamageEntity", at = @At("HEAD"))
     private void enchanced$Rebalanced(ItemStack stack, LivingEntity target, LivingEntity attacker, CallbackInfo ci) {
         if (attacker instanceof PlayerEntity player) {
-            var enchantmentReference = player.getRegistryManager().getEntryOrThrow(Enchantments.WIND_BURST);
-            int level = EnchantmentHelper.getLevel(enchantmentReference, Objects.requireNonNull(stack));
-            if (level > 0) {
+            if (EnchantUtils.hasEnchantment(player, stack, Enchantments.WIND_BURST)) {
                 (net.collective.enchanced.common.index.ModEntityComponents.GROUNDLAYEDCOOLDOWN.get(player)).putOnCooldown(stack, MACE_COOLDOWN);
-            } else {
-                (ModEntityComponents.GROUNDED_COOLDOWN.get(player)).putOnCooldown(stack, MACE_COOLDOWN);
-
+                return;
             }
 
-
+            (ModEntityComponents.GROUNDED_COOLDOWN.get(player)).putOnCooldown(stack, MACE_COOLDOWN);
         }
     }
 

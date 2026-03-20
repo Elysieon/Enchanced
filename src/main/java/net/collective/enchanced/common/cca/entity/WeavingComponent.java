@@ -4,6 +4,7 @@ import net.collective.enchanced.common.cca.SynedPlayerEntityComponent;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.collective.enchanced.common.payload.WeavingC2SPayload;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.collectively.geode.math.math;
 import net.collectively.geode.types.double3;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -212,7 +213,7 @@ public class WeavingComponent extends SynedPlayerEntityComponent {
 
     public static boolean hasWeaving(LivingEntity livingEntity) {
         ItemStack feetStack = livingEntity.getEquippedStack(EquipmentSlot.FEET);
-        return !feetStack.isEmpty() && EnchancedEnchantments.hasEnchantment(livingEntity.getRegistryManager(), feetStack, EnchancedEnchantments.WEAVING);
+        return !feetStack.isEmpty() && EnchantUtils.hasEnchantment(livingEntity, feetStack, EnchancedEnchantments.WEAVING);
     }
 
     public boolean hasWeaving() {

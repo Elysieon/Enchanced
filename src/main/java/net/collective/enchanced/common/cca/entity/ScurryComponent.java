@@ -5,6 +5,7 @@ import net.collective.enchanced.Enchanced;
 import net.collective.enchanced.common.cca.SyncedLivingEntityComponent;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.collectively.geode.math.math;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
@@ -100,7 +101,7 @@ public class ScurryComponent extends SyncedLivingEntityComponent {
         if (duration > 0 && !this.livingEntity().isUsingItem()) {
             ItemStack activeStack = livingEntity().getActiveOrMainHandStack();
 
-            if (activeStack.isEmpty() || !EnchancedEnchantments.hasEnchantment(world().getRegistryManager(), activeStack, EnchancedEnchantments.SCURRY)) {
+            if (activeStack.isEmpty() || !EnchantUtils.hasEnchantment(world(), activeStack, EnchancedEnchantments.SCURRY)) {
                 clearScurry();
             }
 

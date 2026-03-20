@@ -2,6 +2,7 @@ package net.collective.enchanced.common.mixin.enchantment.axes.stenosis;
 
 import net.collective.enchanced.common.index.ModSoundEvent;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -43,17 +44,15 @@ public abstract class LivingEntityMixin extends Entity {
         if (source.getAttacker() instanceof PlayerEntity living) {
             if (living.getEntityWorld() instanceof ServerWorld serverWorld) {
                 if (living.getAttributes().getValue(EntityAttributes.ENTITY_INTERACTION_RANGE) >= living.distanceTo(this)) {
-
-                    var stenosisRegistry = serverWorld.getRegistryManager().getEntryOrThrow(EnchancedEnchantments.STENOSIS.registryKey());
-                    int level = EnchantmentHelper.getLevel(stenosisRegistry, Objects.requireNonNull(living.getActiveOrMainHandStack()));
-                    if (level > 0 && Math.abs(MathHelper.subtractAngles(this.getHeadYaw(), source.getSource().getHeadYaw())) <= 75.0F) {
-                        this.getEntityWorld().playSound(null, this.getBlockPos(), ModSoundEvent.ENTITY_GENERIC_STENOSIS, this.getSoundCategory(), 0.35F + (amount / 35),MathHelper.nextFloat(serverWorld.getRandom(), .9F,1.15F));
-                        damage = damage * 1.5F;
-                        cir.setReturnValue(damage);
+                    if (EnchantUtils.hasEnchantment(serverWorld, living.getActiveOrMainHandStack(), EnchancedEnchantments.STENOSIS)) {
+                        if (Math.abs(MathHelper.subtractAngles(this.getHeadYaw(), source.getSource().getHeadYaw())) <= 75.0F) {
+                            this.getEntityWorld().playSound(null, this.getBlockPos(), ModSoundEvent.ENTITY_GENERIC_STENOSIS, this.getSoundCategory(), 0.35F + (amount / 35), MathHelper.nextFloat(serverWorld.getRandom(), .9F, 1.15F));
+                            damage = damage * 1.5F;
+                            cir.setReturnValue(damage);
+                        }
                     }
                 }
             }
         }
     }
-
 }

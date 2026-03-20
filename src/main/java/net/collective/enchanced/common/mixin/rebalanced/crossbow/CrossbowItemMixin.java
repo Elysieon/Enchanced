@@ -3,6 +3,7 @@ package net.collective.enchanced.common.mixin.rebalanced.crossbow;
 import moriyashiine.enchancement.common.init.ModEnchantments;
 import net.collective.enchanced.Enchanced;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.item.CrossbowItem;
@@ -14,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 public class CrossbowItemMixin {
     @ModifyVariable(method = "shoot", at = @At("HEAD"), ordinal = 1, argsOnly = true)
     private float shoot(float divergence, LivingEntity shooter, ProjectileEntity projectile) {
-        if (projectile.getWeaponStack() != null && EnchancedEnchantments.hasEnchantment(shooter.getRegistryManager(), projectile.getWeaponStack(), ModEnchantments.SCATTER)) {
+        if (projectile.getWeaponStack() != null && EnchantUtils.hasEnchantment(shooter, projectile.getWeaponStack(), ModEnchantments.SCATTER)) {
             return Enchanced.getScatterDivergence();
         }
 

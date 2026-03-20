@@ -9,6 +9,7 @@ import moriyashiine.strawberrylib.api.module.SLibUtils;
 import net.collective.enchanced.common.cca.entity.ScurryComponent;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
 import net.collective.enchanced.common.index.ModEntityComponents;
+import net.collective.enchanced.common.util.EnchantUtils;
 import net.collectively.geode.math.math;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,7 +39,7 @@ public class RebalanceEquipmentEventMixin {
     public void scurry$tick(ServerWorld world, Entity entity, CallbackInfo ci) {
         if (ModConfig.rebalanceEquipment && entity instanceof PlayerEntity player) {
             ItemStack itemStack = player.getActiveOrMainHandStack();
-            if (EnchancedEnchantments.hasEnchantment(world.getRegistryManager(), itemStack, EnchancedEnchantments.SCURRY)) {
+            if (EnchantUtils.hasEnchantment(world, itemStack, EnchancedEnchantments.SCURRY)) {
                 ScurryComponent component = player.getComponent(ModEntityComponents.SCURRY);
                 int scurryChargeTime = math.round(EnchancementUtil.getTridentChargeTime() - component.tridentChargeUp() + 10);
 
