@@ -45,7 +45,7 @@ public abstract class LivingEntityMixin extends Entity {
             if (living.getEntityWorld() instanceof ServerWorld serverWorld) {
                 if (living.getAttributes().getValue(EntityAttributes.ENTITY_INTERACTION_RANGE) >= living.distanceTo(this)) {
                     if (EnchantUtils.hasEnchantment(serverWorld, living.getActiveOrMainHandStack(), EnchancedEnchantments.STENOSIS)) {
-                        if (Math.abs(MathHelper.subtractAngles(this.getHeadYaw(), source.getSource().getHeadYaw())) <= 75.0F) {
+                        if (source.getSource() != null && Math.abs(MathHelper.subtractAngles(this.getHeadYaw(), source.getSource().getHeadYaw())) <= 75.0F) {
                             this.getEntityWorld().playSound(null, this.getBlockPos(), ModSoundEvent.ENTITY_GENERIC_STENOSIS, this.getSoundCategory(), 0.35F + (amount / 35), MathHelper.nextFloat(serverWorld.getRandom(), .9F, 1.15F));
                             damage = damage * 1.5F;
                             cir.setReturnValue(damage);
