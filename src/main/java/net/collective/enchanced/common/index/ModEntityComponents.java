@@ -16,6 +16,7 @@ public class ModEntityComponents implements EntityComponentInitializer {
     public static final ComponentKey<LungeComponent> LUNGE = ComponentRegistry.getOrCreate(Enchanced.id("lunge"), LungeComponent.class);
     public static final ComponentKey<JoustComponent> JOUST = ComponentRegistry.getOrCreate(Enchanced.id("joust"), JoustComponent.class);
     public static final ComponentKey<WeavingComponent> WEAVING = ComponentRegistry.getOrCreate(Enchanced.id("weaving"), WeavingComponent.class);
+    public static final ComponentKey<ImpalingComponent> IMPALING = ComponentRegistry.getOrCreate(Enchanced.id("impaling"), ImpalingComponent.class);
 
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
         registry.beginRegistration(LivingEntity.class, SCURRY).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(ScurryComponent::new);
@@ -23,6 +24,7 @@ public class ModEntityComponents implements EntityComponentInitializer {
         registry.beginRegistration(PlayerEntity.class, LUNGE).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(LungeComponent::new);
         registry.beginRegistration(PlayerEntity.class, JOUST).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(JoustComponent::new);
         registry.beginRegistration(PlayerEntity.class, WEAVING).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(WeavingComponent::new);
+        registry.beginRegistration(PlayerEntity.class, IMPALING).respawnStrategy(RespawnCopyStrategy.NEVER_COPY).end(ImpalingComponent::new);
 
     }
 }

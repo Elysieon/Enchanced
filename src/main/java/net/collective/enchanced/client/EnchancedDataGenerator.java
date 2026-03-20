@@ -71,6 +71,12 @@ public class EnchancedDataGenerator implements DataGeneratorEntrypoint {
                     .enchantment(ItemTags.SPEARS)
                     .primaryItems(ItemTags.SPEARS)
                     .build();
+            addEnchantment(EnchancedEnchantments.IMPALING)
+                    .translateDescription("Spearing is replaced with a heavy throw of the spear.")
+                    .autoTranslate()
+                    .enchantment(ItemTags.SPEARS)
+                    .primaryItems(ItemTags.SPEARS)
+                    .build();
         }
 
         @Override

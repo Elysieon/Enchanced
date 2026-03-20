@@ -19,6 +19,8 @@ public interface EnchancedEnchantments {
     GeodeEnchantment MULTISHOT = Enchanced.geode.registerEnchantment("multishot");
     GeodeEnchantment JOUST = Enchanced.geode.registerEnchantment("joust");
 
+    GeodeEnchantment IMPALING = Enchanced.geode.registerEnchantment("impaling");
+
     static void init() {
     }
 }
