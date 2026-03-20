@@ -34,7 +34,7 @@ public class EnchancedDataGenerator implements DataGeneratorEntrypoint {
         @Override
         protected void generate() {
             addEnchantment(EnchancedEnchantments.WEAVING)
-                    .translateDescription("WIP")
+                    .translateDescription("Increased speed in cobwebs, and pressing Space near a wall will allow you to wall hop twice.")
                     .autoTranslate()
                     .enchantment(ItemTags.FOOT_ARMOR_ENCHANTABLE)
                     .primaryItems(ItemTags.FOOT_ARMOR_ENCHANTABLE)
