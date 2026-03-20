@@ -82,6 +82,8 @@ public class Enchanced implements ModInitializer {
 
             return true;
         });
+
+        geode.register();
     }
 
     public static float getScatterDivergence() {
