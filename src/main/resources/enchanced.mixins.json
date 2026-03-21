@@ -26,6 +26,7 @@
     "posing.ItemMixin",
     "rebalanced.crossbow.CrossbowItemMixin",
     "rebalanced.disallowed_enchantments.EnchantmentUtilMixin",
+    "rebalanced.enchanting.GrindstoneScreenHandlerMixin",
     "rebalanced.mace.ItemStackMixin",
     "rebalanced.mace.LightningDashComponentMixin",
     "rebalanced.mace.MaceItemMixin",
