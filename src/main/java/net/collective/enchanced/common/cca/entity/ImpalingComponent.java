@@ -1,5 +1,6 @@
 package net.collective.enchanced.common.cca.entity;
 
+import moriyashiine.strawberrylib.api.module.SLibRegistries;
 import moriyashiine.strawberrylib.api.module.SLibUtils;
 import net.collective.enchanced.common.cca.SynedPlayerEntityComponent;
 import net.collective.enchanced.common.entity.ThrownSpearEntity;
@@ -81,6 +82,7 @@ public class ImpalingComponent extends SynedPlayerEntityComponent {
 
     public void pickup(ThrownSpearEntity thrownSpearEntity) {
         ItemStack itemStack = thrownSpearEntity.getRenderedItemStack().copy();
+        world().playSound(null, player().getX(), player().getY(), player().getZ(), SoundEvents.ENTITY_ITEM_PICKUP, SoundCategory.PLAYERS, 0.6f, 1.2f);
 
         if (savedSlotIndex != -1) {
             boolean isEmpty = savedSlotIndex == -67
