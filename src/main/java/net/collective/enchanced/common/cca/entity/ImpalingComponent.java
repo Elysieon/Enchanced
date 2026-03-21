@@ -1,8 +1,6 @@
 package net.collective.enchanced.common.cca.entity;
 
-import moriyashiine.strawberrylib.api.module.SLibRegistries;
-import moriyashiine.strawberrylib.api.module.SLibUtils;
-import net.collective.enchanced.common.cca.SynedPlayerEntityComponent;
+import net.collective.enchanced.common.cca.SyncedPlayerEntityComponent;
 import net.collective.enchanced.common.entity.ThrownSpearEntity;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.collective.enchanced.common.payload.ThrownSpearSyncS2CPayload;
@@ -21,7 +19,7 @@ import net.minecraft.storage.WriteView;
 import net.minecraft.util.Hand;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 
-public class ImpalingComponent extends SynedPlayerEntityComponent {
+public class ImpalingComponent extends SyncedPlayerEntityComponent {
     private static final String SAVED_SLOT_INDEX_KEY = "saved_slot_index";
     private int savedSlotIndex = -1;
 
@@ -30,7 +28,7 @@ public class ImpalingComponent extends SynedPlayerEntityComponent {
     }
 
     @Override
-    protected ComponentKey<? extends SynedPlayerEntityComponent> getComponentKey() {
+    protected ComponentKey<? extends SyncedPlayerEntityComponent> getComponentKey() {
         return ModEntityComponents.IMPALING;
     }
 

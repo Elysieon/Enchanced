@@ -3,7 +3,7 @@ package net.collective.enchanced.common.cca.entity;
 import moriyashiine.enchancement.common.enchantment.effect.AirJumpEffect;
 import moriyashiine.enchancement.common.enchantment.effect.DirectionBurstEffect;
 import moriyashiine.enchancement.common.enchantment.effect.RotationBurstEffect;
-import net.collective.enchanced.common.cca.SynedPlayerEntityComponent;
+import net.collective.enchanced.common.cca.SyncedPlayerEntityComponent;
 import net.collective.enchanced.common.index.EnchancedEnchantments;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.collective.enchanced.common.payload.WeavingC2SPayload;
@@ -18,7 +18,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
-import net.minecraft.text.Text;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Direction;
@@ -31,7 +30,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.function.IntSupplier;
 
-public class WeavingComponent extends SynedPlayerEntityComponent {
+public class WeavingComponent extends SyncedPlayerEntityComponent {
     private static final String GROUND_TIME_KEY = "ground_time";
     private int groundTime;
 
@@ -60,7 +59,7 @@ public class WeavingComponent extends SynedPlayerEntityComponent {
     }
 
     @Override
-    protected ComponentKey<? extends SynedPlayerEntityComponent> getComponentKey() {
+    protected ComponentKey<? extends SyncedPlayerEntityComponent> getComponentKey() {
         return ModEntityComponents.WEAVING;
     }
 

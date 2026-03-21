@@ -8,10 +8,10 @@ import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.sync.AutoSyncedComponent;
 import org.ladysnake.cca.api.v3.component.tick.CommonTickingComponent;
 
-public abstract class SynedPlayerEntityComponent implements Component, AutoSyncedComponent, CommonTickingComponent {
+public abstract class SyncedPlayerEntityComponent implements Component, AutoSyncedComponent, CommonTickingComponent {
     private final PlayerEntity playerEntity;
 
-    public SynedPlayerEntityComponent(PlayerEntity playerEntity) {
+    public SyncedPlayerEntityComponent(PlayerEntity playerEntity) {
         this.playerEntity = playerEntity;
     }
 
@@ -29,7 +29,7 @@ public abstract class SynedPlayerEntityComponent implements Component, AutoSynce
 
     // region -------- SYNCING --------
 
-    protected abstract ComponentKey<? extends SynedPlayerEntityComponent> getComponentKey();
+    protected abstract ComponentKey<? extends SyncedPlayerEntityComponent> getComponentKey();
 
     public final void sync(LivingEntity target) {
         getComponentKey().sync(target);

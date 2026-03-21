@@ -2,7 +2,7 @@ package net.collective.enchanced.common.cca.entity;
 
 import com.mojang.serialization.Codec;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.collective.enchanced.common.cca.SynedPlayerEntityComponent;
+import net.collective.enchanced.common.cca.SyncedPlayerEntityComponent;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.collectively.geode.helpers.RenderHelper;
 import net.collectively.geode.math.math;
@@ -16,11 +16,8 @@ import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.predicate.entity.EntityPredicates;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
-import net.minecraft.util.Unit;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -32,7 +29,7 @@ import org.ladysnake.cca.api.v3.component.ComponentKey;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BallisticComponent extends SynedPlayerEntityComponent {
+public class BallisticComponent extends SyncedPlayerEntityComponent {
     private static final String PROJECTILES_KEY = "projectiles";
     /// contains every shot projectile. should be saved as a list of ints describing the ids of the entities
     private final List<FireworkRocketEntity> projectiles = new ArrayList<>();
@@ -42,7 +39,7 @@ public class BallisticComponent extends SynedPlayerEntityComponent {
     }
 
     @Override
-    protected ComponentKey<? extends SynedPlayerEntityComponent> getComponentKey() {
+    protected ComponentKey<? extends SyncedPlayerEntityComponent> getComponentKey() {
         return ModEntityComponents.BALLISTIC;
     }
 

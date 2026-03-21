@@ -1,7 +1,7 @@
 package net.collective.enchanced.common.cca.entity;
 
 import net.collective.enchanced.api.debugging.DebugMessages;
-import net.collective.enchanced.common.cca.SynedPlayerEntityComponent;
+import net.collective.enchanced.common.cca.SyncedPlayerEntityComponent;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.storage.ReadView;
@@ -10,13 +10,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 
-public class DebugMessageComponent extends SynedPlayerEntityComponent {
+public class DebugMessageComponent extends SyncedPlayerEntityComponent {
     public DebugMessageComponent(PlayerEntity playerEntity) {
         super(playerEntity);
     }
 
     @Override
-    protected ComponentKey<? extends SynedPlayerEntityComponent> getComponentKey() {
+    protected ComponentKey<? extends SyncedPlayerEntityComponent> getComponentKey() {
         return ModEntityComponents.DEBUG_MESSAGE;
     }
 

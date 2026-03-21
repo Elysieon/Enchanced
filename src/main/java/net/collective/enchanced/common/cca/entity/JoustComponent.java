@@ -1,26 +1,20 @@
 package net.collective.enchanced.common.cca.entity;
 
-import com.llamalad7.mixinextras.utils.MixinAPInternals;
 import moriyashiine.strawberrylib.api.module.SLibUtils;
-import net.collective.enchanced.common.cca.SynedPlayerEntityComponent;
+import net.collective.enchanced.common.cca.SyncedPlayerEntityComponent;
 import net.collective.enchanced.common.index.ModEntityComponents;
 import net.collective.enchanced.common.util.SpearUtil;
 import net.collectively.geode.math.math;
 import net.collectively.geode.types.double3;
-import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.KineticWeaponComponent;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 
-public class JoustComponent extends SynedPlayerEntityComponent {
+public class JoustComponent extends SyncedPlayerEntityComponent {
     public static final int MAX_USE_TIME = 72000;
     public static final int MAX_CHARGE_TIME = 3 * 20;
 
@@ -38,7 +32,7 @@ public class JoustComponent extends SynedPlayerEntityComponent {
     }
 
     @Override
-    protected ComponentKey<? extends SynedPlayerEntityComponent> getComponentKey() {
+    protected ComponentKey<? extends SyncedPlayerEntityComponent> getComponentKey() {
         return ModEntityComponents.JOUST;
     }
 
