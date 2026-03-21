@@ -6,22 +6,30 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import moriyashiine.enchancement.client.payload.SyncBookshelvesPayload;
+import moriyashiine.enchancement.common.ModConfig;
 import moriyashiine.enchancement.common.screenhandler.EnchantingTableScreenHandler;
+import moriyashiine.enchancement.common.util.config.OverhaulMode;
+import net.collective.enchanced.api.debugging.DebugMessages;
 import net.collective.enchanced.common.util.EnchantUtils;
+import net.minecraft.block.entity.ChiseledBookshelfBlockEntity;
 import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.ItemEnchantmentsComponent;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.predicate.item.EnchantmentsPredicate;
+import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -32,9 +40,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
+import java.util.Set;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
+@SuppressWarnings("CallToPrintStackTrace")
 @Mixin(EnchantingTableScreenHandler.class)
 public abstract class EnchantingTableScreenHandlerMixin {
     @Shadow
@@ -46,9 +55,6 @@ public abstract class EnchantingTableScreenHandlerMixin {
     @Shadow
     @Final
     public List<RegistryEntry.Reference<Enchantment>> validEnchantments;
-
-    @Shadow
-    protected abstract List<RegistryEntry.Reference<Enchantment>> getAllEnchantments();
 
     @Shadow
     @Final
@@ -70,6 +76,13 @@ public abstract class EnchantingTableScreenHandlerMixin {
 
     @Shadow
     public abstract void onContentChanged(Inventory inventory);
+
+    @Shadow
+    @Final
+    public Set<RegistryEntry<Enchantment>> chiseledEnchantments;
+
+    @Shadow
+    private int bookshelfCount;
 
     @WrapMethod(method = "getEnchantmentFromViewIndex")
     public RegistryEntry<Enchantment> enchanced$getEnchantmentFromViewIndex(int index, Operation<RegistryEntry<Enchantment>> original) {
@@ -115,7 +128,7 @@ public abstract class EnchantingTableScreenHandlerMixin {
 
             return (Slot) addSlotMethod.invoke(handler, new Slot(inventory, 2, 25, 51) {
                 public boolean canInsert(ItemStack stack) {
-                    return testEnchantingMaterial.test(stack) || canAcceptBook(stack, null);
+                    return testEnchantingMaterial.test(stack) || canAcceptBook(stack);
                 }
             });
         } catch (Exception exception) {
@@ -133,7 +146,7 @@ public abstract class EnchantingTableScreenHandlerMixin {
             )
     )
     private boolean enchanced$quickMoveAcceptBooks(boolean original, PlayerEntity player, int index, @Local(name = "stackInSlot") ItemStack stackInSlot) {
-        return original || canAcceptBook(stackInSlot, player);
+        return original || canAcceptBook(stackInSlot);
     }
 
     @Inject(
@@ -148,7 +161,7 @@ public abstract class EnchantingTableScreenHandlerMixin {
         ItemStack materialStack = handler.slots.get(2).getStack();
 
         if (materialStack.isOf(Items.ENCHANTED_BOOK)) {
-            if (!canAcceptBook(materialStack, player)) {
+            if (!canAcceptBook(materialStack)) {
                 this.inventory.markDirty();
                 onContentChanged(inventory);
                 player.getInventory().offerOrDrop(handler.slots.get(2).getStack().copyAndEmpty());
@@ -157,29 +170,14 @@ public abstract class EnchantingTableScreenHandlerMixin {
     }
 
     @Unique
-    private boolean canAcceptBook(ItemStack bookStack, @Nullable PlayerEntity player) {
+    private boolean canAcceptBook(ItemStack bookStack) {
         if (!bookStack.isOf(Items.ENCHANTED_BOOK) || selectedEnchantments.isEmpty()) {
-            if (player != null) {
-                if (!bookStack.isOf(Items.ENCHANTED_BOOK)) {
-                    // player.sendMessage(Text.literal("Cannot insert book: " + bookStack + " is not an enchanted book!").formatted(Formatting.RED), false);
-                } else {
-                    // player.sendMessage(Text.literal("Cannot insert book: no enchantment selected!").formatted(Formatting.RED), false);
-                }
-            }
-
             return false;
         }
 
-        var storedEnchantments = bookStack.get(DataComponentTypes.STORED_ENCHANTMENTS).getEnchantments();
-        boolean hasAllEnchantments = storedEnchantments.containsAll(selectedEnchantments);
-
-        if (!hasAllEnchantments && player != null) {
-            // player.sendMessage(Text.literal("Cannot insert book " + bookStack + ": Missing enchantments!").formatted(Formatting.RED), false);
-            // player.sendMessage(Text.literal("- Book enchantments: " + storedEnchantments.stream().map(x -> ", " + x.value()).collect(Collectors.joining())).formatted(Formatting.RED), false);
-            // player.sendMessage(Text.literal("- Selected enchantments: " + selectedEnchantments.stream().map(x -> ", " + x.value()).collect(Collectors.joining())).formatted(Formatting.RED), false);
-        }
-
-        return hasAllEnchantments;
+        //noinspection DataFlowIssue
+        Set<RegistryEntry<Enchantment>> storedEnchantments = bookStack.get(DataComponentTypes.STORED_ENCHANTMENTS).getEnchantments();
+        return storedEnchantments.containsAll(selectedEnchantments);
     }
 
     @ModifyExpressionValue(
@@ -226,5 +224,62 @@ public abstract class EnchantingTableScreenHandlerMixin {
         }
 
         return original;
+    }
+
+    @Unique
+    private static final int BOOKSHELF_HORIZONTAL_DETECTION_RADIUS = 6;
+    @Unique
+    private static final int BOOKSHELF_VERTICAL_DETECTION_RADIUS = 6;
+
+    @WrapMethod(method = "lambda$collectBookshelves$5")
+    private void collectBookshelves$collectBookshelvesFromFurtherAway(ServerPlayerEntity player,
+                                                                      World world,
+                                                                      BlockPos pos,
+                                                                      Operation<Void> original) {
+        this.chiseledEnchantments.clear();
+        this.bookshelfCount = 0;
+
+        for (int x = -BOOKSHELF_HORIZONTAL_DETECTION_RADIUS; x <= BOOKSHELF_HORIZONTAL_DETECTION_RADIUS; x++) {
+            for (int z = -BOOKSHELF_HORIZONTAL_DETECTION_RADIUS; z <= BOOKSHELF_HORIZONTAL_DETECTION_RADIUS; z++) {
+                for (int y = 0; y <= BOOKSHELF_VERTICAL_DETECTION_RADIUS; y++) {
+                    if (EnchantUtils.isVisiblePowerSource(world, pos, pos.add(x,y,z), player)) {
+                        if (world.getBlockEntity(pos.add(x,y,z)) instanceof ChiseledBookshelfBlockEntity chiseledBookshelf) {
+                            this.bookshelfCount += chiseledBookshelf.getFilledSlotCount() / 3;
+
+                            if (ModConfig.overhaulEnchanting == OverhaulMode.CHISELED && !player.isCreative()) {
+                                for (ItemStack stack : chiseledBookshelf) {
+                                    if (stack.contains(DataComponentTypes.STORED_ENCHANTMENTS)) {
+                                        ItemEnchantmentsComponent component = stack.get(DataComponentTypes.STORED_ENCHANTMENTS);
+                                        if (component != null) {
+                                            chiseledEnchantments.addAll(component.getEnchantments());
+                                        }
+                                    }
+
+                                    if (stack.contains(DataComponentTypes.ENCHANTMENTS)) {
+                                        ItemEnchantmentsComponent component = stack.get(DataComponentTypes.ENCHANTMENTS);
+                                        if (component != null) {
+                                            chiseledEnchantments.addAll(component.getEnchantments());
+                                        }
+                                    }
+                                }
+                            }
+
+                            continue;
+                        }
+
+                        bookshelfCount++;
+                    }
+                }
+            }
+        }
+
+        this.bookshelfCount = Math.min(15, this.bookshelfCount);
+
+        if (ModConfig.overhaulEnchanting == OverhaulMode.CHISELED && player.isCreative()) {
+            Registry<Enchantment> enchantmentRegistry = world.getRegistryManager().getOrThrow(RegistryKeys.ENCHANTMENT);
+            enchantmentRegistry.forEach((enchantment) -> this.chiseledEnchantments.add(enchantmentRegistry.getEntry(enchantment)));
+        }
+
+        SyncBookshelvesPayload.send(player, this.chiseledEnchantments, this.bookshelfCount);
     }
 }
