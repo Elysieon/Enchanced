@@ -52,6 +52,7 @@ public class Enchanced implements ModInitializer {
         ModSoundEvent.init();
         ModLootConditionTypes.init();
         ModEntityTypes.init();
+        ModScreenHandlerTypes.init();
 
         // Register Packet Stuff
         PayloadTypeRegistry.playC2S().register(LungeC2SPayload.ID, LungeC2SPayload.CODEC);
