@@ -42,10 +42,10 @@ Todo List:
 - DISABLED ENCHANTMENT STILL SHOW UP IN CHEST ✅
 
 - Enchanting Table Changes
-    - Lock goes out of bounds for long enchantment names like Thunderstruck. Fix:
-        - Scrolling name with mask.
-        - Lock icon with max X coordinate being within the bounds.
-        - Mask around the element to prevent the scrolling name from going out of bounds.
+    - Lock goes out of bounds for long enchantment names like Thunderstruck. Fix: ✅
+        - Scrolling name with mask. ✅
+        - Lock icon with max X coordinate being within the bounds. ✅
+        - Mask around the element to prevent the scrolling name from going out of bounds. ✅
     - Book Payment ✅
     - Book Reroll
     - Grindstone Buff with books ✅
