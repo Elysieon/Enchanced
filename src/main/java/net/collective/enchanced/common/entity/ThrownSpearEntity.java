@@ -166,12 +166,12 @@ public class ThrownSpearEntity extends PersistentProjectileEntity {
     private void tickStoredVelocityDirection() {
         Vec3d velocityDirection = getVelocity().normalize();
 
-        if (isMoving()) {
-            storedVelocityDirection = velocityDirection;
+        if (storedVelocityDirection == Vec3d.ZERO) {
+            storedVelocityDirection = getRotationVector().multiply(-1, -1, 1);
         }
 
-        if (storedVelocityDirection == null) {
-            storedVelocityDirection = Vec3d.ZERO;
+        if (isMoving()) {
+            storedVelocityDirection = velocityDirection;
         }
     }
 
