@@ -34,7 +34,8 @@
       "enchanced:joust",
       "enchanced:weaving",
       "enchanced:impaling",
-      "enchanced:ballistic"
+      "enchanced:ballistic",
+      "enchanced:debug_message"
     ]
   },
   "accessWidener": "enchanced.classtweaker",
