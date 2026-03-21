@@ -116,7 +116,7 @@ public class BallisticComponent extends SynedPlayerEntityComponent {
             Vec3d vel = projectile.getVelocity();
             double velSpeed = vel.lengthSquared();
             Vec3d velDir = vel.multiply(1d / math.sqrt(velSpeed));
-            projectile.setVelocity(velDir.lerp(direction, 0.5));
+            projectile.setVelocity(velDir.lerp(direction, 0.08));
         }
     }
 
