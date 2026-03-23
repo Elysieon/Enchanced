@@ -9,8 +9,8 @@ public class EnchancedConfig extends MidnightConfig {
     @Entry(
             category = SERVER,
             isSlider = true,
-            min = 0.5f,
-            max = 3f
+            min = 4f,
+            max = 24f
     )
-    public static float scatterDivergence = 1.4f;
+    public static float scatterDivergence = 8f;
 }

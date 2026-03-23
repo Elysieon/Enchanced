@@ -23,7 +23,7 @@
     "enchantment.trident.scurry.TridentItemMixin",
     "enchantment_table.EnchantingTableScreenHandlerMixin",
     "posing.ItemMixin",
-    "rebalanced.crossbow.CrossbowItemMixin",
+    "rebalanced.crossbow.scatter.RangedWeaponItemMixin",
     "rebalanced.disallowed_enchantments.EnchantmentUtilMixin",
     "rebalanced.enchanting.GrindstoneScreenHandlerMixin",
     "rebalanced.mace.ItemStackMixin",
